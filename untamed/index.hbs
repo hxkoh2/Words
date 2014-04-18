@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Name       : Untamed 
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20131220
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
+<link href="untamed/default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="untamed/fonts.css" rel="stylesheet" type="text/css" media="all" />
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
+
+</head>
+<body>
+<div id="header-wrapper">
+	<div id="header" class="container">
+		<div id="logo">
+			<h1><span class="fa fa-bug"></span><a href="/">Words</a></h1>
+		</div>
+		<div id="menu">
+			<ul>
+				<li class="current_page_item"><a href="/" accesskey="1" title="">Homepage</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="header-featured">
+	<div id="banner-wrapper">
+		<div id="banner" class="container">
+			<h2>Welcome to Words</h2>
+			<form method="post" action="upload-file" name="file_upload" enctype="multipart/form-data">
+				<p id="file_chosen">No file chosen</p>
+				<div class="upload">Choose a File</div><br>
+				<input id="file" name="fileForm" class="hide" type="file"/>
+				<br><br>
+				<input type="submit" name="upload" value="Upload Your File" class="button" id="submit">
+			</form>
+			<!--<a href="#" class="button">Upload Your File</a>-->
+		</div>
+	</div>
+</div>
+<script>
+	$(document).on("click", ".upload", function(){
+		$("#file").click();
+	});
+</script>
+<script>
+	$("#file").change(function(){
+		$("#file_chosen").html($("#file").val());
+	});
+</script>
+<div id="copyright" class="container">
+	<p>Copyright (c) 2013 Sitename.com. All rights reserved. | Photos by <a href="http://fotogrph.com/">Fotogrph</a> | Design by <a href="http://www.freecsstemplates.org/" rel="nofollow">FreeCSSTemplates.org</a>.</p>
+</div>
+</body>
+</html>

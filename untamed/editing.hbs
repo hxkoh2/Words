@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Name       : Untamed 
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20131220
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
+<link href="untamed/default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="untamed/fonts.css" rel="stylesheet" type="text/css" media="all" />
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
+
+</head>
+<body>
+<div id="header-wrapper">
+	<div id="header" class="container">
+		<div id="logo">
+			<h1><span class="fa fa-bug"></span><a href="/">Words</a></h1>
+		</div>
+		<div id="menu">
+			<ul>
+				<li class="current_page_item"><a href="/" accesskey="1" title="">Homepage</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="header-featured">
+	<div id="banner-wrapper">
+		<div id="banner" class="container">
+			<h2>Let's Make This Document Better! :)</h2>
+			<div style="float:left">
+				<textarea id="document" rows="40" cols="80">{{fileContents}}</textarea>
+				<form method="post" action="download" name="download_file" id="download_file">
+					<button id="submit">Download</button>
+				</form>
+			</div>
+			<div style="float:right">
+				<h3><strong>Most Used Words</strong></h3>
+				<br>
+				<form method="post" action="query" name="query_words" id="query_words">
+					<h4>Number of top-used words:</h4> <input type="text" name="num">
+					<input type="hidden" name="doc" value="">
+					<input type="submit" value="submit">
+				</form>
+				<br>
+				<br>
+				<div id="topWords"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(document).on('submit', "form#query_words", function(event){
+		var text = $("#document").val();
+		$("#query_words").find('input[name="doc"]').val(text);
+		var datastring = $(this).serialize();
+		$.ajax({ 
+		    url: 'http://localhost:8000/query',
+		    type: 'POST',
+		    data: datastring,
+		    success: function(data2){
+		    	console.log("data2: " + data2);
+				$("#topWords").html(data2);
+		    },
+		    error: function(err){
+		    	console.log("An error occured");
+		    }
+		});
+		this.reset();
+		return false;
+	});
+
+	$(document).on('click', "#showSyn", function(){
+		$(this).next("#syn").toggle();
+	});
+
+	$(document).on('click', "form#download_file", function(event){
+		var text = $("#document").val();
+		$(this).append('<input type="hidden" name="text" value="' + text + '"">');
+		$(this).submit();
+	});
+</script>	
+<div id="copyright" class="container">
+	<p>Copyright (c) 2013 Sitename.com. All rights reserved. | Photos by <a href="http://fotogrph.com/">Fotogrph</a> | Design by <a href="http://www.freecsstemplates.org/" rel="nofollow">FreeCSSTemplates.org</a>.</p>
+</div>
+</body>
+</html>
