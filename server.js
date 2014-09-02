@@ -8,8 +8,9 @@ var mostUsedWords = require('./analyze.js').mostUsedWords;
 var generateHTML = require('./analyze.js').generateHTML;
 var concat = require('concat-stream');
 var express = require('express');
-
 var app = express();
+
+
 
 /*This endpoint handles get requests to load the main page*/
 app.get('/', function(req, res){
@@ -58,7 +59,6 @@ app.post('/download', function(req, res){
 	req.pipe(concat(function(data){
 		var form_data = url.parse('?'+data.toString(), true);
 		var text = form_data.query.text;
-		console.log(text);
 		res.setHeader('Content-disposition', 'attachment; filename=download.txt');
 		res.setHeader('Content-type', 'text/plain');
 		res.charset = 'UTF-8';

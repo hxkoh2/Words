@@ -83,7 +83,7 @@ var generateHTML = function(topWords){
 		str += '<li><strong id="showSyn">' + topWords[m]['word'] + '</strong><ul id="syn" style="display:none">'; 
 		if(topWords[m]['syn'] != null){
 			for(var i=0; i<topWords[m]['syn'].length; i++){
-				str += '<li>' + topWords[m]['syn'][i] + '</li>';
+				str += '<li class="option">' + topWords[m]['syn'][i] + '</li>';
 			}
 			str += '</ul></li><br>';
 		}
@@ -93,4 +93,34 @@ var generateHTML = function(topWords){
 };
 
 
-module.exports = {'mostUsedWords': mostUsedWords, 'generateHTML': generateHTML};
+/**
+* This function finds the words in the text that match the most used word clicked
+* @param text: the file text
+* @param word: the most used word
+* @return: the html text with a <p> tag around all the instances of the most used words 
+*/
+var findWords = function(text, word){
+	var newText = "";
+	var str = text;
+	var start, index, before, after;
+	if(str.indexOf(word) != -1){
+		while(str.indexOf(word) >= 0){
+			start = 0;
+			index = str.indexOf(word);
+			before = str.substring(start, index);
+			for(var i=index; (str.charAt(i)>='A' && str.charAt(i)<='Z') || (str.charAt(i)>='a' && str.charAt(i)<='z'); i++);
+			//i will be at the position right after the word
+			after = str.substring(i);
+			//word = str.substring(index, i);
+			newText = newText + before + "<p class='change'>" + word + "</p>";
+			str = after;
+		}
+		return newText + after;
+	}
+	else{
+		return text;
+	}
+};
+
+
+module.exports = {'organizeWords': organizeWords, 'mostUsedWords': mostUsedWords, 'generateHTML': generateHTML, 'findWords': findWords};

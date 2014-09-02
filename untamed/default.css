@@ -34,6 +34,11 @@ ol, ul
 	list-style: none;
 }
 
+.clicked
+{
+	color: #FF0099;
+}
+
 p
 {
 	line-height: 180%;
@@ -58,6 +63,18 @@ a:hover
 {
 	margin: 0px auto;
 	width: 1200px;
+}
+
+.change
+{
+	display:inline;
+	color: #FF0099;
+	font-weight:bold;
+}
+
+#fileData
+{
+	display:inline;
 }
 
 /*********************************************************************************/

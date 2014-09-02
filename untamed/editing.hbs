@@ -42,14 +42,14 @@ Released   : 20131220
 		<div id="banner" class="container">
 			<h2>Let's Make This Document Better! :)</h2>
 			<div style="float:left">
-				<textarea id="document" rows="40" cols="80">{{fileContents}}</textarea>
+				<div contenteditable="true" id="document" style="width:600px;overflow:hidden;background-color:#FFFFCC;color:#303030"></div>
+				<!--<textarea id="document" rows="40" cols="80">{{fileContents}}</textarea>-->
 				<form method="post" action="download" name="download_file" id="download_file">
 					<button id="submit">Download</button>
 				</form>
 			</div>
 			<div style="float:right">
 				<h3><strong>Most Used Words</strong></h3>
-				<br>
 				<form method="post" action="query" name="query_words" id="query_words">
 					<h4>Number of top-used words:</h4> <input type="text" name="num">
 					<input type="hidden" name="doc" value="">
@@ -63,8 +63,14 @@ Released   : 20131220
 	</div>
 </div>
 <script>
+	var currWord = "";
+	$(document).ready(function(){
+		var text = "{{{fileContents}}}";
+		console.log(text);
+		document.getElementById("document").innerHTML = text;
+	});
 	$(document).on('submit', "form#query_words", function(event){
-		var text = $("#document").val();
+		var text = $("#document").text();
 		$("#query_words").find('input[name="doc"]').val(text);
 		var datastring = $(this).serialize();
 		$.ajax({ 
@@ -72,7 +78,7 @@ Released   : 20131220
 		    type: 'POST',
 		    data: datastring,
 		    success: function(data2){
-		    	console.log("data2: " + data2);
+		    	//console.log("data2: " + data2);
 				$("#topWords").html(data2);
 		    },
 		    error: function(err){
@@ -85,13 +91,51 @@ Released   : 20131220
 
 	$(document).on('click', "#showSyn", function(){
 		$(this).next("#syn").toggle();
+		//$(this).toggleClass("clicked");
+		var text = $('#document').text();
+		var word = $(this).text();
+		var newText = findWords(text, word);
+		document.getElementById("document").innerHTML = newText;
 	});
 
+	$(document).on('click', ".option", function(){
+		currWord = $(this).text();
+		$(this).toggleClass("clicked");
+	});
+
+	$(document).on('click', ".change", function(){
+		if(currWord.length>0)
+			$(this).text(currWord);
+		console.log($('#document').text());
+	});
 	$(document).on('click', "form#download_file", function(event){
-		var text = $("#document").val();
+		var text = $("#document").text();
 		$(this).append('<input type="hidden" name="text" value="' + text + '"">');
 		$(this).submit();
 	});
+
+	var findWords = function(text, word){
+		var newText = "";
+		var str = text;
+		var start, index, before, after;
+		if(str.indexOf(word) != -1){
+			while(str.indexOf(word) >= 0){
+				start = 0;
+				index = str.indexOf(word);
+				before = str.substring(start, index);
+				for(var i=index; (str.charAt(i)>='A' && str.charAt(i)<='Z') || (str.charAt(i)>='a' && str.charAt(i)<='z'); i++);
+				//i will be at the position right after the word
+				after = str.substring(i);
+				//word = str.substring(index, i);
+				newText = newText + before + "<p class='change'>" + word + "</p>";
+				str = after;
+			}
+			return newText + after;
+		}
+		else{
+			return text;
+		}
+	};
 </script>	
 <div id="copyright" class="container">
 	<p>Copyright (c) 2013 Sitename.com. All rights reserved. | Photos by <a href="http://fotogrph.com/">Fotogrph</a> | Design by <a href="http://www.freecsstemplates.org/" rel="nofollow">FreeCSSTemplates.org</a>.</p>
